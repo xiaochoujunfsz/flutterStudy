@@ -9,6 +9,10 @@ void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
     print("自定义错误：：$details");
   };
+  List<int> list = [1,2,3,4,5,6,7,8,9,10];
+  List<int> newList = [22,33];
+  newList.addAll(list.getRange(0, 5).map((e) => e + 9).toList());
+  print(newList);
   runApp(MyApp());
 }
 
@@ -135,7 +139,9 @@ class NewRoute extends StatelessWidget {
         title: Text("New route"),
       ),
       body: Center(
-        child: Text("This is new route"),
+        child: GestureDetector(onTap: () {
+          Navigator.popUntil(context, ModalRoute.withName("/"));
+        }, child: Text("This is new route")),
       ),
     );
   }

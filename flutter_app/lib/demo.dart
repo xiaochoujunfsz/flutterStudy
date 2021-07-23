@@ -124,29 +124,29 @@ void main() {
   //   print("无法捕获：$e");
   // }
 
-  runZonedGuarded(
-    () => Future.delayed(Duration(seconds: 1))
-        .then((value) => {print("新方法给你捕获"), Future.error("errorA")}),
-    (Object error, StackTrace stack) {
-      print("新方法捕获到了--$error");
-    },
-    zoneSpecification: ZoneSpecification(
-        print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
-      Future.error("新方法error--$line");
-    }),
-  );
+  // runZonedGuarded(
+  //   () => Future.delayed(Duration(seconds: 1))
+  //       .then((value) => {print("新方法给你捕获"), Future.error("errorA")}),
+  //   (Object error, StackTrace stack) {
+  //     print("新方法捕获到了--$error");
+  //   },
+  //   zoneSpecification: ZoneSpecification(
+  //       print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
+  //     Future.error("新方法error--$line");
+  //   }),
+  // );
 
-  runZoned(
-    () => Future.delayed(Duration(seconds: 1))
-        .then((value) => {print("老方法给你捕获"), Future.error("errorB")}),
-    zoneSpecification: ZoneSpecification(
-        print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
-      Future.error("老方法error--$line");
-    }),
-    onError: (Object error, StackTrace stack) {
-      print("老方法捕获到了--$error");
-    },
-  );
+  // runZoned(
+  //   () => Future.delayed(Duration(seconds: 1))
+  //       .then((value) => {print("老方法给你捕获"), Future.error("errorB")}),
+  //   zoneSpecification: ZoneSpecification(
+  //       print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
+  //     Future.error("老方法error--$line");
+  //   }),
+  //   onError: (Object error, StackTrace stack) {
+  //     print("老方法捕获到了--$error");
+  //   },
+  // );
 }
 
 String say(String from, String msg, [String device]) {

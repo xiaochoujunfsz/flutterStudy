@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
         routes: {
           "/": (context) => HomePage(),
           "file_operation": (context) => FileOperationRoute(),
+          "car_view_page": (context) => CarPage(),
         });
   }
 }

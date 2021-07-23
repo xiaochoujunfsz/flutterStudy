@@ -53,6 +53,8 @@ flutter:
     - images/3.png
     - images/avatar.png
     - assets/config.json
+    - images/icon_car.png
+    - images/icon_speak.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
