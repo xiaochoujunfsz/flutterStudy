@@ -18,6 +18,9 @@ class MyApp extends StatelessWidget {
           "/": (context) => HomePage(),
           "file_operation": (context) => FileOperationRoute(),
           "car_view_page": (context) => CarPage(),
+          "dio_page": (context) => DioPage(),
+          "web_socket_page": (context) => WebSocketRoute(),
+          "json_test_page": (context) => JsonTestRoute(),
         });
   }
 }

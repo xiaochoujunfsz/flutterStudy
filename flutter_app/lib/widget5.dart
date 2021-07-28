@@ -1,11 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/CarView.dart';
 import 'package:flutter_app/RadioSlider.dart';
+import 'package:flutter_app/model.dart';
 import 'package:flutter_app/widget4.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:web_socket_channel/io.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -31,6 +35,30 @@ class HomePage extends StatelessWidget {
               height: 50,
               onPressed: () {
                 Navigator.pushNamed(context, "car_view_page");
+              },
+            ),
+            GradientButton(
+              child: Text("dio基础"),
+              colors: [Colors.orange, Colors.red],
+              height: 50,
+              onPressed: () {
+                Navigator.pushNamed(context, "dio_page");
+              },
+            ),
+            GradientButton(
+              child: Text("web socket测试"),
+              colors: [Colors.orange, Colors.red],
+              height: 50,
+              onPressed: () {
+                Navigator.pushNamed(context, "web_socket_page");
+              },
+            ),
+            GradientButton(
+              child: Text("json测试"),
+              colors: [Colors.orange, Colors.red],
+              height: 50,
+              onPressed: () {
+                Navigator.pushNamed(context, "json_test_page");
               },
             ),
             Row(children: [
@@ -190,7 +218,219 @@ class CarPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("自定义喇叭"),
       ),
-      body:CarView(),
+      body: CarView(),
+    );
+  }
+}
+
+//dio基础使用
+class DioPage extends StatefulWidget {
+  const DioPage({Key key}) : super(key: key);
+
+  @override
+  _DioPageState createState() => _DioPageState();
+}
+
+class _DioPageState extends State<DioPage> {
+  Dio _dio = new Dio();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("dio基础使用"),
+      ),
+      body: Container(
+        alignment: Alignment.center,
+        child: FutureBuilder(
+          future: _dio.get("https://api.github.com/orgs/flutterchina/repos"),
+          builder: (context, snapshot) {
+            //请求完成
+            if (snapshot.connectionState == ConnectionState.done) {
+              Response response = snapshot.data;
+              //发生错误
+              if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
+              //请求成功，通过项目信息构建用于显示项目名称的ListView
+              return ListView(
+                children: response.data
+                    .map<Widget>((e) => ListTile(
+                          title: Text(e["full_name"]),
+                        ))
+                    .toList,
+              );
+            }
+            //请求未完成时弹出loading
+            return CircularProgressIndicator();
+          },
+        ),
+      ),
+    );
+  }
+}
+
+Future downloadWithChunks(url, savePath,
+    {ProgressCallback onReceiveProgress}) async {
+  const firstChunkSize = 102;
+  const maxChunk = 3;
+
+  int total = 0;
+  var dio = Dio();
+  var progress = <int>[];
+
+  createCallback(no) {
+    return (int received, _) {
+      progress[no] = received;
+      if (onReceiveProgress != null && total != 0) {
+        onReceiveProgress(
+            progress.reduce((value, element) => value + element), total);
+      }
+    };
+  }
+
+  Future<Response> downloadChunk(url, start, end, no) async {
+    progress.add(0);
+    --end;
+    return dio.download(url, savePath + "temp$no",
+        onReceiveProgress: createCallback(no),
+        options: Options(headers: {"range": "bytes=$start-$end"}));
+  }
+
+  Future mergeTempFiles(chunk) async {
+    File f = File(savePath + "temp0");
+    IOSink ioSink = f.openWrite(mode: FileMode.writeOnlyAppend);
+    for (int i = 1; i < chunk; ++i) {
+      File _f = File(savePath + "temp$i");
+      await ioSink.addStream(_f.openRead());
+      await _f.delete();
+    }
+    await ioSink.close();
+    await f.rename(savePath);
+  }
+
+  Response response = await downloadChunk(url, 0, firstChunkSize, 0);
+  if (response.statusCode == 206) {
+    total = int.parse(
+        response.headers.value(HttpHeaders.contentRangeHeader).split("/").last);
+    int reserved = total -
+        int.parse(response.headers.value(HttpHeaders.contentLengthHeader));
+    int chunk = (reserved / firstChunkSize).ceil() + 1;
+    if (chunk > 1) {
+      int chunkSize = firstChunkSize;
+      if (chunk > maxChunk + 1) {
+        chunk = maxChunk + 1;
+        chunkSize = (reserved / maxChunk).ceil();
+      }
+      var futures = <Future>[];
+      for (int i = 0; i < maxChunk; ++i) {
+        int start = firstChunkSize + i * chunkSize;
+        futures.add(downloadChunk(url, start, start + chunkSize, i + 1));
+      }
+      await Future.wait(futures);
+    }
+    await mergeTempFiles(chunk);
+  }
+}
+
+class WebSocketRoute extends StatefulWidget {
+  const WebSocketRoute({Key key}) : super(key: key);
+
+  @override
+  _WebSocketRouteState createState() => _WebSocketRouteState();
+}
+
+class _WebSocketRouteState extends State<WebSocketRoute> {
+  TextEditingController _controller = TextEditingController();
+  IOWebSocketChannel channel;
+  String _text = "";
+
+  @override
+  void initState() {
+    super.initState();
+    //创建websocket连接
+    channel = IOWebSocketChannel.connect('wss://echo.websocket.org');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("WebSocket(内容回显)"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Form(
+                child: TextFormField(
+              controller: _controller,
+              decoration: InputDecoration(labelText: "Send a message"),
+            )),
+            StreamBuilder(
+              builder: (context, snapshot) {
+                //网络不通会走到这
+                if (snapshot.hasError) {
+                  _text = "网络不通...";
+                } else if (snapshot.hasData) {
+                  _text = "echo: ${snapshot.data}";
+                }
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 24),
+                  child: Text(_text),
+                );
+              },
+              stream: channel.stream,
+            )
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _sendMessage,
+        tooltip: 'Send message',
+        child: Icon(Icons.send),
+      ),
+    );
+  }
+
+  void _sendMessage() {
+    if (_controller.text.isNotEmpty) {
+      channel.sink.add(_controller.text);
+    }
+  }
+
+  @override
+  void dispose() {
+    channel.sink.close();
+    super.dispose();
+  }
+}
+
+class JsonTestRoute extends StatelessWidget {
+  const JsonTestRoute({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("json测试"),
+      ),
+      body: Column(
+        children: [
+          ElevatedButton(
+              onPressed: () {
+                String jsonStr =
+                    '{"name":"John Smith","email": "john@example.com"}';
+                Map userMap = json.decode(jsonStr);
+                var user = User.fromJson(userMap);
+                print("Hello,${user.name}!");
+                print("We sent the verification link to ${user.email}.");
+                print("转json${json.encode(user)}");
+              },
+              child: Text("decode user"))
+        ],
+      ),
     );
   }
 }
