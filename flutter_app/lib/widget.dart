@@ -613,6 +613,9 @@ class _ScaffoldRouteState extends State<ScaffoldRoute>
   void initState() {
     super.initState();
     _tabController = TabController(length: tabs.length, vsync: this);
+    _tabController.addListener(() {
+      _selectedIndex = _tabController.previousIndex;
+    });
   }
 
   @override
@@ -632,10 +635,14 @@ class _ScaffoldRouteState extends State<ScaffoldRoute>
         }),
         actions: [IconButton(icon: Icon(Icons.share), onPressed: () {})],
         bottom: TabBar(
+          onTap: (index){
+            print(_selectedIndex);
+            _tabController.animateTo(_selectedIndex);
+          },
           controller: _tabController,
           tabs: tabs
               .map((e) => Tab(
-                    text: e,
+                    text: "$e",
                   ))
               .toList(),
         ),
@@ -669,7 +676,16 @@ class _ScaffoldRouteState extends State<ScaffoldRoute>
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         shape: CircularNotchedRectangle(),
-        child: Row(
+        child:
+        // TabBar(
+        //   controller: _tabController,
+        //   tabs: tabs
+        //       .map((e) => Tab(
+        //     text: "$e",
+        //   ))
+        //       .toList(),
+        // ),
+        Row(
           children: [
             IconButton(icon: Icon(Icons.home)),
             SizedBox(),
@@ -1128,7 +1144,9 @@ class _WillPopScopeTestRouteState extends State<WillPopScopeTestRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("拦截导航返回"),),
+      appBar: AppBar(
+        title: Text("拦截导航返回"),
+      ),
       body: WillPopScope(
           child: Container(
             alignment: Alignment.center,
