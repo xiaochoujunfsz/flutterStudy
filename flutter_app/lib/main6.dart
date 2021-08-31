@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
           "/": (context) => HomePage(),
           "single_scroll": (context) => SingleScrollPage(),
           "my_image_test": (context) => MyImageTestPage(),
+          "draggable_button_test": (context) => DraggableFloatingActionTest(),
         });
   }
 }

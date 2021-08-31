@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/main6.dart';
 import 'package:flutter_app/widget4.dart';
 
+import 'DraggableFloatingActionButton.dart';
+
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,14 @@ class HomePage extends StatelessWidget {
               height: 50,
               onPressed: () {
                 Navigator.pushNamed(context, "my_image_test");
+              },
+            ),
+            GradientButton(
+              child: Text("draggable_button_test"),
+              colors: [Colors.orange, Colors.red],
+              height: 50,
+              onPressed: () {
+                Navigator.pushNamed(context, "draggable_button_test");
               },
             ),
           ],
@@ -145,3 +155,47 @@ class MyImageTestPage extends StatelessWidget {
     );
   }
 }
+
+class DraggableFloatingActionTest extends StatelessWidget {
+  final GlobalKey _parentKey = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Flutter Draggable Floating Action Button"),
+      ),
+      body: Column(
+        children: [
+          Container(
+            height: 150,
+          ),
+          Container(
+            width: 300,
+            height: 300,
+            child: Stack(
+              key: _parentKey,
+              children: [
+                Container(color: Colors.cyan),
+                Center(
+                  child: const Text(
+                    "FlutterDev's.com",
+                    style: const TextStyle(color: Colors.white, fontSize: 24),
+                  ),
+                ),
+                DraggableFloatingActionButton(
+                  child: Image.asset("images/icon_car.png",width: 30,height: 30,),
+                  alignment: Alignment.centerRight,
+                  parentKey: _parentKey,
+                  onPressed: () {},
+                  xCanDraggable: false,
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
