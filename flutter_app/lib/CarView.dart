@@ -59,7 +59,7 @@ class _SpeakPainter extends CustomPainter {
       centerX = size.width / 2;
     }
     if (centerY == null) {
-      centerY = size.height / 2;
+      centerY = size.height / 4;
     }
     var paint = Paint()
       ..isAntiAlias = true
@@ -79,54 +79,57 @@ class _SpeakPainter extends CustomPainter {
 
     //左上区域最大半径
     double leftTopLine = sqrt(pow(centerX, 2) + pow(centerY, 2));
+    //间距15
     double leftTopSum = (leftTopLine - 40) / 15;
+    //左上区域
     for (int i = 0; i < leftTopSum; i++) {
       double r = r1 + 15.0 * i;
       double l = l1 * (leftTopSum - i) / leftTopSum;
       Rect rect1 = Rect.fromCircle(center: Offset(centerX, centerY), radius: r);
-      double sweepAngle = 2 * asin(l / 2 / r);
-      double startAngle1 =
-          pi + angle0 / 4 + (asin(l1 / 2 / r1) - sweepAngle / 2) + angleP - angle0;
+      double sweepAngle = -l / r;
+      double startAngle1 = 3 * pi / 2 - atan(centerX / centerY) + l / 2 / r;
       canvas.drawArc(rect1, startAngle1, sweepAngle, false, paint);
     }
     //左下区域最大半径
-    double leftBottomLine =
-        sqrt(pow(centerX, 2) + pow(size.height - centerY, 2));
+    double leftBottomLine = sqrt(pow(centerX, 2) + pow((size.height - centerY), 2));
+    //间距15
     double leftBottomSum = (leftBottomLine - 40) / 15;
+    //左下区域
     for (int i = 0; i < leftBottomSum; i++) {
       double r = r1 + 15.0 * i;
       double l = l1 * (leftBottomSum - i) / leftBottomSum;
       Rect rect1 = Rect.fromCircle(center: Offset(centerX, centerY), radius: r);
-      double sweepAngle = 2 * asin(l / 2 / r);
-      double startAngle4 =
-          pi / 2 + angle0 / 4 + (asin(l1 / 2 / r1) - sweepAngle / 2) + angleP - angle0;
-      canvas.drawArc(rect1, startAngle4, sweepAngle, false, paint);
+      double sweepAngle = l / r;
+      double startAngle1 = pi / 2 + atan(centerX / (size.height - centerY)) - l / 2 / r;
+      canvas.drawArc(rect1, startAngle1, sweepAngle, false, paint);
     }
     //右上区域最大半径
     double rightTopLine = sqrt(pow(size.width - centerX, 2) + pow(centerY, 2));
+    //间距15
     double rightTopSum = (rightTopLine - 40) / 15;
+    //右上区域
     for (int i = 0; i < rightTopSum; i++) {
       double r = r1 + 15.0 * i;
       double l = l1 * (rightTopSum - i) / rightTopSum;
       Rect rect1 = Rect.fromCircle(center: Offset(centerX, centerY), radius: r);
-      double sweepAngle = 2 * asin(l / 2 / r);
-
-      double startAngle2 =
-          pi * 3 / 2 + angle0 / 4 + (asin(l1 / 2 / r1) - sweepAngle / 2) + angleP - angle0;
-      canvas.drawArc(rect1, startAngle2, sweepAngle, false, paint);
+      double sweepAngle = l / r;
+      double startAngle1 =
+          3 * pi / 2 + atan((size.width - centerX) / centerY) - l / 2 / r;
+      canvas.drawArc(rect1, startAngle1, sweepAngle, false, paint);
     }
     //右下区域最大半径
-    double rightBottomLine =
-        sqrt(pow(size.width - centerX, 2) + pow(size.height - centerY, 2));
+    double rightBottomLine = sqrt(pow(size.width - centerX, 2) + pow((size.height - centerY), 2));
+    //间距15
     double rightBottomSum = (rightBottomLine - 40) / 15;
+    //右下区域
     for (int i = 0; i < rightBottomSum; i++) {
       double r = r1 + 15.0 * i;
       double l = l1 * (rightBottomSum - i) / rightBottomSum;
       Rect rect1 = Rect.fromCircle(center: Offset(centerX, centerY), radius: r);
-      double sweepAngle = 2 * asin(l / 2 / r);
-
-      double startAngle3 = angle0 / 4 + (asin(l1 / 2 / r1) - sweepAngle / 2) + angleP - angle0;
-      canvas.drawArc(rect1, startAngle3, sweepAngle, false, paint);
+      double sweepAngle = -l / r;
+      double startAngle1 =
+          pi / 2 - atan((size.width - centerX) / (size.height - centerY)) + l / 2 / r;
+      canvas.drawArc(rect1, startAngle1, sweepAngle, false, paint);
     }
   }
 
