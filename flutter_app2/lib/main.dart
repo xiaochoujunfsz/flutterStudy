@@ -13,7 +13,9 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-void main() => runApp(const MaterialApp(home: WebViewExample()));
+import 'DioTest.dart';
+
+void main() => runApp(const MaterialApp(home: DioTestPage()));
 
 const String kNavigationExamplePage = '''
 <!DOCTYPE html><html>
