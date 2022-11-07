@@ -10,12 +10,11 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app2/MainPage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import 'DioTest.dart';
-
-void main() => runApp(const MaterialApp(home: DioTestPage()));
+void main() => runApp(const MaterialApp(home: MainPage()));
 
 const String kNavigationExamplePage = '''
 <!DOCTYPE html><html>
@@ -83,7 +82,7 @@ class WebViewExample extends StatefulWidget {
 
 class _WebViewExampleState extends State<WebViewExample> {
   final Completer<WebViewController> _controller =
-  Completer<WebViewController>();
+      Completer<WebViewController>();
 
   @override
   void initState() {
@@ -322,7 +321,7 @@ class SampleMenu extends StatelessWidget {
   Future<void> _onListCookies(
       WebViewController controller, BuildContext context) async {
     final String cookies =
-    await controller.runJavascriptReturningResult('document.cookie');
+        await controller.runJavascriptReturningResult('document.cookie');
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -347,7 +346,7 @@ class SampleMenu extends StatelessWidget {
   Future<void> _onListCache(
       WebViewController controller, BuildContext context) async {
     await controller.runJavascript('caches.keys()'
-    // ignore: missing_whitespace_between_adjacent_strings
+        // ignore: missing_whitespace_between_adjacent_strings
         '.then((cacheKeys) => JSON.stringify({"cacheKeys" : cacheKeys, "localStorage" : localStorage}))'
         '.then((caches) => Toaster.postMessage(caches))');
   }
@@ -374,7 +373,7 @@ class SampleMenu extends StatelessWidget {
   Future<void> _onNavigationDelegateExample(
       WebViewController controller, BuildContext context) async {
     final String contentBase64 =
-    base64Encode(const Utf8Encoder().convert(kNavigationExamplePage));
+        base64Encode(const Utf8Encoder().convert(kNavigationExamplePage));
     await controller.loadUrl('data:text/html;base64,$contentBase64');
   }
 
@@ -426,7 +425,7 @@ class SampleMenu extends StatelessWidget {
     }
     final List<String> cookieList = cookies.split(';');
     final Iterable<Text> cookieWidgets =
-    cookieList.map((String cookie) => Text(cookie));
+        cookieList.map((String cookie) => Text(cookie));
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
@@ -469,39 +468,39 @@ class NavigationControls extends StatelessWidget {
               onPressed: !webViewReady
                   ? null
                   : () async {
-                if (await controller!.canGoBack()) {
-                  await controller.goBack();
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('No back history item')),
-                  );
-                  return;
-                }
-              },
+                      if (await controller!.canGoBack()) {
+                        await controller.goBack();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('No back history item')),
+                        );
+                        return;
+                      }
+                    },
             ),
             IconButton(
               icon: const Icon(Icons.arrow_forward_ios),
               onPressed: !webViewReady
                   ? null
                   : () async {
-                if (await controller!.canGoForward()) {
-                  await controller.goForward();
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('No forward history item')),
-                  );
-                  return;
-                }
-              },
+                      if (await controller!.canGoForward()) {
+                        await controller.goForward();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('No forward history item')),
+                        );
+                        return;
+                      }
+                    },
             ),
             IconButton(
               icon: const Icon(Icons.replay),
               onPressed: !webViewReady
                   ? null
                   : () {
-                controller!.reload();
-              },
+                      controller!.reload();
+                    },
             ),
           ],
         );
