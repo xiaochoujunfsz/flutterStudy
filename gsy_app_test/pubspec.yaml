@@ -29,9 +29,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  #    多语言库
   flutter_localizations:
     sdk: flutter
+  #    安卓意图库
   android_intent_plus: ^3.1.5
+  #    loading框库
+  flutter_spinkit: ^5.1.0
+  #  网络请求库
+  dio: ^4.0.6
+  #  启动url
+  url_launcher: ^6.1.6
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -60,10 +68,10 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-    # To add assets to your application, add an assets section, like this:
-    # assets:
-    #   - images/a_dot_burr.jpeg
-    #   - images/a_dot_ham.jpeg
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - static/images/
+    - static/font/
 
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware

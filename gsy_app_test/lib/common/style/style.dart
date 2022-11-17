@@ -45,8 +45,177 @@ class ColorUtil {
   static const Color textColorWhite = white;
 }
 
+//文本样式
+class TextConstant {
+  static const String app_default_share_url =
+      "https://github.com/CarGuo/gsy_github_app_flutter";
+
+  static const lagerTextSize = 30.0;
+  static const bigTextSize = 23.0;
+  static const normalTextSize = 18.0;
+  static const middleTextWhiteSize = 16.0;
+  static const smallTextSize = 14.0;
+  static const minTextSize = 12.0;
+
+  static const minText = TextStyle(
+    color: ColorUtil.subLightTextColor,
+    fontSize: minTextSize,
+  );
+
+  static const smallTextWhite = TextStyle(
+    color: ColorUtil.textColorWhite,
+    fontSize: smallTextSize,
+  );
+
+  static const smallText = TextStyle(
+    color: ColorUtil.mainTextColor,
+    fontSize: smallTextSize,
+  );
+
+  static const smallTextBold = TextStyle(
+    color: ColorUtil.mainTextColor,
+    fontSize: smallTextSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const smallSubLightText = TextStyle(
+    color: ColorUtil.subLightTextColor,
+    fontSize: smallTextSize,
+  );
+
+  static const smallActionLightText = TextStyle(
+    color: ColorUtil.actionBlue,
+    fontSize: smallTextSize,
+  );
+
+  static const smallMiLightText = TextStyle(
+    color: ColorUtil.miWhite,
+    fontSize: smallTextSize,
+  );
+
+  static const smallSubText = TextStyle(
+    color: ColorUtil.subTextColor,
+    fontSize: smallTextSize,
+  );
+
+  static const middleText = TextStyle(
+    color: ColorUtil.mainTextColor,
+    fontSize: middleTextWhiteSize,
+  );
+
+  static const middleTextWhite = TextStyle(
+    color: ColorUtil.textColorWhite,
+    fontSize: middleTextWhiteSize,
+  );
+
+  static const middleSubText = TextStyle(
+    color: ColorUtil.subTextColor,
+    fontSize: middleTextWhiteSize,
+  );
+
+  static const middleSubLightText = TextStyle(
+    color: ColorUtil.subLightTextColor,
+    fontSize: middleTextWhiteSize,
+  );
+
+  static const middleTextBold = TextStyle(
+    color: ColorUtil.mainTextColor,
+    fontSize: middleTextWhiteSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const middleTextWhiteBold = TextStyle(
+    color: ColorUtil.textColorWhite,
+    fontSize: middleTextWhiteSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const middleSubTextBold = TextStyle(
+    color: ColorUtil.subTextColor,
+    fontSize: middleTextWhiteSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const normalText = TextStyle(
+    color: ColorUtil.mainTextColor,
+    fontSize: normalTextSize,
+  );
+
+  static const normalTextBold = TextStyle(
+    color: ColorUtil.mainTextColor,
+    fontSize: normalTextSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const normalSubText = TextStyle(
+    color: ColorUtil.subTextColor,
+    fontSize: normalTextSize,
+  );
+
+  static const normalTextWhite = TextStyle(
+    color: ColorUtil.textColorWhite,
+    fontSize: normalTextSize,
+  );
+
+  static const normalTextMitWhiteBold = TextStyle(
+    color: ColorUtil.miWhite,
+    fontSize: normalTextSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const normalTextActionWhiteBold = TextStyle(
+    color: ColorUtil.actionBlue,
+    fontSize: normalTextSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const normalTextLight = TextStyle(
+    color: ColorUtil.primaryLightValue,
+    fontSize: normalTextSize,
+  );
+
+  static const largeText = TextStyle(
+    color: ColorUtil.mainTextColor,
+    fontSize: bigTextSize,
+  );
+
+  static const largeTextBold = TextStyle(
+    color: ColorUtil.mainTextColor,
+    fontSize: bigTextSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const largeTextWhite = TextStyle(
+    color: ColorUtil.textColorWhite,
+    fontSize: bigTextSize,
+  );
+
+  static const largeTextWhiteBold = TextStyle(
+    color: ColorUtil.textColorWhite,
+    fontSize: bigTextSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const largeLargeTextWhite = TextStyle(
+    color: ColorUtil.textColorWhite,
+    fontSize: lagerTextSize,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const largeLargeText = TextStyle(
+    color: ColorUtil.primaryValue,
+    fontSize: lagerTextSize,
+    fontWeight: FontWeight.bold,
+  );
+}
+
 class IconUtil {
   static const String FONT_FAMILY = 'wxcIconFont';
+
+  static const String DEFAULT_USER_ICON = 'static/images/logo.png';
+  static const String DEFAULT_IMAGE = 'static/images/default_img.png';
+  static const String DEFAULT_REMOTE_PIC =
+      'http://img.cdn.guoshuyu.cn/gsy_github_app_logo.png';
 
   static const IconData HOME =
       IconData(0xe624, fontFamily: IconUtil.FONT_FAMILY);
@@ -105,4 +274,20 @@ class IconUtil {
       IconData(0xe6ba, fontFamily: IconUtil.FONT_FAMILY);
   static const IconData ISSUE_ITEM_ADD =
       IconData(0xe662, fontFamily: IconUtil.FONT_FAMILY);
+
+  static const IconData ISSUE_EDIT_H1 = Icons.filter_1;
+  static const IconData ISSUE_EDIT_H2 = Icons.filter_2;
+  static const IconData ISSUE_EDIT_H3 = Icons.filter_3;
+  static const IconData ISSUE_EDIT_BOLD = Icons.format_bold;
+  static const IconData ISSUE_EDIT_ITALIC = Icons.format_italic;
+  static const IconData ISSUE_EDIT_QUOTE = Icons.format_quote;
+  static const IconData ISSUE_EDIT_CODE = Icons.format_shapes;
+  static const IconData ISSUE_EDIT_LINK = Icons.insert_link;
+
+  static const IconData NOTIFY_ALL_READ =
+      IconData(0xe62f, fontFamily: IconUtil.FONT_FAMILY);
+
+  static const IconData PUSH_ITEM_EDIT = Icons.mode_edit;
+  static const IconData PUSH_ITEM_ADD = Icons.add_box;
+  static const IconData PUSH_ITEM_MIN = Icons.indeterminate_check_box;
 }
