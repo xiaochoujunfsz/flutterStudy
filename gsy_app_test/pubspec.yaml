@@ -40,6 +40,17 @@ dependencies:
   dio: ^4.0.6
   #  启动url
   url_launcher: ^6.1.6
+  #  json和序列化数据 参考 https://flutter.cn/docs/development/data-and-backend/json 和 https://blog.csdn.net/u010289802/article/details/82781291
+  #  持续生成代码  flutter pub run build_runner watch
+  json_annotation: ^4.7.0
+  #  事件广播和事件监听
+  event_bus: ^2.0.0
+  #  吐司
+  fluttertoast: ^8.1.1
+  #  状态管理
+  flutter_redux: ^0.10.0
+  #  本地存储
+  shared_preferences: ^2.0.15
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -56,6 +67,9 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  #  json和序列化数据
+  build_runner: ^2.3.2
+  json_serializable: ^6.5.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

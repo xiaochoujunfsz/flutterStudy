@@ -32,15 +32,15 @@ class _ErrorPageState extends State<ErrorPage> {
           width: width,
           height: width,
           decoration: BoxDecoration(
-            color: Colors.white.withAlpha(100),
-            // gradient: RadialGradient(
-            //     tileMode: TileMode.mirror,
-            //     radius: 0.1,
-            //     colors: [
-            //       Colors.white.withAlpha(10),
-            //       ColorUtil.primaryValue.withAlpha(100)
-            //     ]),
-            // borderRadius: BorderRadius.all(Radius.circular(width / 2)),
+            color: Colors.white.withAlpha(30),
+            gradient: RadialGradient(
+                tileMode: TileMode.mirror,
+                radius: 0.1,
+                colors: [
+                  Colors.white.withAlpha(10),
+                  ColorUtil.primaryValue.withAlpha(100)
+                ]),
+            borderRadius: BorderRadius.all(Radius.circular(width / 2)),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
