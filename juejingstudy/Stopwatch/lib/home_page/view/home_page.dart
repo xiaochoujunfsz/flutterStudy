@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:stopwatch/home_page/view/button_tools.dart';
+import 'package:stopwatch/home_page/view/record_panel.dart';
 
+import '../model/time_record.dart';
 import 'stopwatch_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,6 +18,8 @@ class _HomePageState extends State<HomePage> {
 
   //当前时间
   Duration _duration = Duration.zero;
+
+  List<TimeRecord> _record = [];
 
   @override
   void initState() {
@@ -95,8 +99,8 @@ class _HomePageState extends State<HomePage> {
   //记录面板
   Widget buildRecordPanel() {
     return Expanded(
-        child: Container(
-      color: Colors.red,
+        child: RecordPanel(
+      record: _record,
     ));
   }
 
@@ -116,10 +120,20 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _duration = Duration.zero;
       _type = StopWatchType.none;
+      _record.clear();
     });
   }
 
-  void onRecoder() {}
+  void onRecoder() {
+    Duration current = _duration;
+    Duration addition = _duration;
+    if (_record.isNotEmpty) {
+      addition = _duration - _record.last.record;
+    }
+    setState(() {
+      _record.add(TimeRecord(record: current, addition: addition));
+    });
+  }
 
   void toggle() {
     bool running = _type == StopWatchType.running;
