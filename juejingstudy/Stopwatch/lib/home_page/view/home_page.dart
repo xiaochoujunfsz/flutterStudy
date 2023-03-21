@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:stopwatch/home_page/view/button_tools.dart';
 
 import 'stopwatch_widget.dart';
 
@@ -9,13 +11,32 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-enum StopWatchType {
-  none, // 初始态
-  stopped, // 已停止
-  running, // 运行中
-}
-
 class _HomePageState extends State<HomePage> {
+  late Ticker _ticker;
+
+  //当前时间
+  Duration _duration = Duration.zero;
+
+  @override
+  void initState() {
+    super.initState();
+    _ticker = Ticker(_onTick);
+  }
+
+  //时间差
+  Duration dt = Duration.zero;
+
+  //上一次的时间，暂停会重置
+  Duration lastDuration = Duration.zero;
+
+  void _onTick(Duration elapsed) {
+    setState(() {
+      dt = elapsed - lastDuration;
+      _duration += dt;
+      lastDuration = elapsed;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +51,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           buildStopwatchPanel(),
           buildRecordPanel(),
-          buildTools(StopWatchType.running),
+          buildTools(),
         ],
       ),
     );
@@ -65,11 +86,9 @@ class _HomePageState extends State<HomePage> {
   //秒表表盘
   Widget buildStopwatchPanel() {
     double radius = MediaQuery.of(context).size.width / 2 * 0.75;
-    Duration duration =
-        const Duration(minutes: 3, seconds: 28, milliseconds: 50);
     return StopWatchWidget(
       radius: radius,
-      duration: duration,
+      duration: _duration,
     );
   }
 
@@ -81,44 +100,43 @@ class _HomePageState extends State<HomePage> {
     ));
   }
 
+  StopWatchType _type = StopWatchType.none;
+
   //工具按钮
-  Widget buildTools(StopWatchType state) {
-    bool running = state == StopWatchType.running;
-    bool stopped = state == StopWatchType.stopped;
-    Color activeColor = const Color(0xff3A3A3A);
-    Color inactiveColor = const Color(0xffDDDDDD);
-    Color resetColor = stopped ? activeColor : inactiveColor;
-    Color flagColor = running ? activeColor : inactiveColor;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: Wrap(
-        crossAxisAlignment: WrapCrossAlignment.center,
-        spacing: 50,
-        children: [
-          if (state != StopWatchType.none)
-            GestureDetector(
-              onTap: stopped ? onReset : null,
-              child: Icon(Icons.refresh, size: 28, color: resetColor),
-            ),
-          FloatingActionButton(
-            backgroundColor: Theme.of(context).primaryColor,
-            onPressed: toggle,
-            child:
-                running ? const Icon(Icons.stop) : const Icon(Icons.play_arrow),
-          ),
-          if (state != StopWatchType.none)
-            GestureDetector(
-              onTap: running ? onRecoder : null,
-              child: Icon(Icons.flag_outlined, size: 28, color: flagColor),
-            ),
-        ],
-      ),
+  Widget buildTools() {
+    return ButtonTools(
+      state: _type,
+      onRecoder: onRecoder,
+      onReset: onReset,
+      toggle: toggle,
     );
   }
 
-  void onReset() {}
+  void onReset() {
+    setState(() {
+      _duration = Duration.zero;
+      _type = StopWatchType.none;
+    });
+  }
 
   void onRecoder() {}
 
-  void toggle() {}
+  void toggle() {
+    bool running = _type == StopWatchType.running;
+    if (running) {
+      _ticker.stop();
+      lastDuration = Duration.zero;
+    } else {
+      _ticker.start();
+    }
+    setState(() {
+      _type = running ? StopWatchType.stopped : StopWatchType.running;
+    });
+  }
+
+  @override
+  void dispose() {
+    _ticker.dispose();
+    super.dispose();
+  }
 }
