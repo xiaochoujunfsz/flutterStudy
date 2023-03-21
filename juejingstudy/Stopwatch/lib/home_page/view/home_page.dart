@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:stopwatch/home_page/view/button_tools.dart';
 import 'package:stopwatch/home_page/view/record_panel.dart';
+import 'package:stopwatch/setting_page/setting_page.dart';
 
 import '../model/time_record.dart';
 import 'stopwatch_widget.dart';
@@ -85,7 +86,12 @@ class _HomePageState extends State<HomePage> {
     ];
   }
 
-  void _onSelectItem(String value) {}
+  void _onSelectItem(String value) {
+    if (value == "设置") {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => const SettingPage()));
+    }
+  }
 
   //秒表表盘
   Widget buildStopwatchPanel() {
