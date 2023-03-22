@@ -8,7 +8,13 @@ class AppConfigBloc extends Cubit<AppConfig> {
 
   void switchThemeColor(Color color) {
     if (color != state.themeColor) {
-      emit(state.copyWith(color));
+      emit(state.copyWith(color: color));
+    }
+  }
+
+  void switchLanguage(Locale? locale) {
+    if (locale != state.locale) {
+      emit(state.copyWith(locale: locale));
     }
   }
 }

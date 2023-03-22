@@ -1,0 +1,6 @@
+#文字资源的路径
+arb-dir: lib/l10n/arb
+#默认使用的arb文件
+template-arb-file: app_en.arb
+#导出的文件名
+output-localization-file: app_localizations.dart

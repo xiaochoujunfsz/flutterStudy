@@ -4,11 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stopwatch/app_config_bloc/app_config.dart';
 import 'package:stopwatch/app_config_bloc/app_config_bloc.dart';
 import 'package:stopwatch/home_page/view/home_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   runApp(
     BlocProvider<AppConfigBloc>(
-      create: (_) => AppConfigBloc(appConfig: const AppConfig.defaultConfig()),
+      create: (_) => AppConfigBloc(appConfig: AppConfig.defaultConfig()),
       child: const StopwatchApp(),
     ),
   );
@@ -27,6 +28,9 @@ class StopwatchApp extends StatelessWidget {
     );
     return BlocBuilder<AppConfigBloc, AppConfig>(
       builder: (_, state) => MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: state.locale,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             primaryColor: state.themeColor,

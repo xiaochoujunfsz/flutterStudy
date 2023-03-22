@@ -2,35 +2,44 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stopwatch/app_config_bloc/app_config_bloc.dart';
+import 'package:stopwatch/setting_page/language_select_dialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String setting = AppLocalizations.of(context)!.setting;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: const BackButton(color: Colors.black),
-        title: const Text(
-          "设置",
+        title: Text(
+          setting,
           style: TextStyle(color: Colors.black, fontSize: 16),
         ),
       ),
       body: Column(
         children: [
           buildColorItem(context),
+          buildLocalItem(context),
         ],
       ),
     );
   }
 
   Widget buildColorItem(BuildContext context) {
+    String colorThemeTitle = AppLocalizations.of(context)!.colorThemeTitle;
+    String colorThemeSubTitle =
+        AppLocalizations.of(context)!.colorThemeSubTitle;
+
     return ListTile(
       onTap: () => _selectColor(context),
-      title: const Text('选取主题色'),
-      subtitle: const Text('秒表界面的高亮颜色为主题色'),
+      title: Text(colorThemeTitle),
+      subtitle: Text(colorThemeSubTitle),
       trailing: Container(
         width: 24,
         height: 24,
@@ -75,5 +84,33 @@ class SettingPage extends StatelessWidget {
     if (context.mounted) {
       BlocProvider.of<AppConfigBloc>(context).switchThemeColor(newColor);
     }
+  }
+
+  Widget buildLocalItem(BuildContext context) {
+    // String local = BlocProvider.of<AppConfigBloc>(context).state.locale.languageCode;
+
+    String localTitle = AppLocalizations.of(context)!.localTitle;
+    String localSubTitle = AppLocalizations.of(context)!.localSubTitle;
+    return ListTile(
+      onTap: () => changeLanguage(context),
+      title: Text(
+        localTitle,
+      ),
+      subtitle: Text(localSubTitle),
+      trailing: Container(
+          width: 24,
+          height: 24,
+          alignment: Alignment.center,
+          decoration:
+              BoxDecoration(shape: BoxShape.circle, border: Border.all()),
+          child: Text(
+            'zh',
+            style: TextStyle(height: 1),
+          )),
+    );
+  }
+
+  void changeLanguage(BuildContext context) {
+    showLanguageSelectDialog(context);
   }
 }
