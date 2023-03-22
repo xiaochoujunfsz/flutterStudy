@@ -1,5 +1,7 @@
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stopwatch/app_config_bloc/app_config_bloc.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -24,7 +26,7 @@ class SettingPage extends StatelessWidget {
     );
   }
 
-  Widget buildColorItem(BuildContext context){
+  Widget buildColorItem(BuildContext context) {
     return ListTile(
       onTap: () => _selectColor(context),
       title: const Text('选取主题色'),
@@ -67,7 +69,11 @@ class SettingPage extends StatelessWidget {
         closeButton: true,
         dialogActionButtons: false,
       ),
-      constraints: const BoxConstraints(minHeight: 480, minWidth: 320, maxWidth: 320),
+      constraints:
+          const BoxConstraints(minHeight: 480, minWidth: 320, maxWidth: 320),
     );
+    if (context.mounted) {
+      BlocProvider.of<AppConfigBloc>(context).switchThemeColor(newColor);
+    }
   }
 }
