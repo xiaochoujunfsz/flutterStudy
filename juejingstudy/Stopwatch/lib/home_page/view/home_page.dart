@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   late Ticker _ticker;
 
   //当前时间
-  Duration _duration = Duration.zero;
+  final ValueNotifier<Duration> _duration = ValueNotifier(Duration.zero);
 
   List<TimeRecord> _record = [];
 
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   void _onTick(Duration elapsed) {
     setState(() {
       dt = elapsed - lastDuration;
-      _duration += dt;
+      _duration.value += dt;
       lastDuration = elapsed;
     });
   }
@@ -95,11 +95,14 @@ class _HomePageState extends State<HomePage> {
 
   //秒表表盘
   Widget buildStopwatchPanel() {
-    double radius = MediaQuery.of(context).size.width / 2 * 0.75;
-    return StopWatchWidget(
-      radius: radius,
-      duration: _duration,
-    );
+    double radius = MediaQuery.of(context).size.shortestSide / 2 * 0.75;
+    return ValueListenableBuilder<Duration>(
+        valueListenable: _duration,
+        builder: (_, value, __) => StopWatchWidget(
+              radius: radius,
+              duration: value,
+              themeColor: Theme.of(context).primaryColor,
+            ));
   }
 
   //记录面板
@@ -124,17 +127,17 @@ class _HomePageState extends State<HomePage> {
 
   void onReset() {
     setState(() {
-      _duration = Duration.zero;
+      _duration.value = Duration.zero;
       _type = StopWatchType.none;
       _record.clear();
     });
   }
 
   void onRecoder() {
-    Duration current = _duration;
-    Duration addition = _duration;
+    Duration current = _duration.value;
+    Duration addition = _duration.value;
     if (_record.isNotEmpty) {
-      addition = _duration - _record.last.record;
+      addition = _duration.value - _record.last.record;
     }
     setState(() {
       _record.add(TimeRecord(record: current, addition: addition));
