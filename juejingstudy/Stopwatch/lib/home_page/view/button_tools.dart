@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum StopWatchType {
-  none, // 初始态
-  stopped, // 已停止
-  running, // 运行中
-}
+import '../bloc/bloc.dart';
 
 class ButtonTools extends StatelessWidget {
   final StopWatchType state;
@@ -43,7 +39,7 @@ class ButtonTools extends StatelessWidget {
             backgroundColor: Theme.of(context).primaryColor,
             onPressed: toggle,
             child:
-            running ? const Icon(Icons.stop) : const Icon(Icons.play_arrow),
+                running ? const Icon(Icons.stop) : const Icon(Icons.play_arrow),
           ),
           if (state != StopWatchType.none)
             GestureDetector(

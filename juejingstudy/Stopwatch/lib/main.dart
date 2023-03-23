@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stopwatch/app_config_bloc/app_config.dart';
 import 'package:stopwatch/app_config_bloc/app_config_bloc.dart';
+import 'package:stopwatch/home_page/bloc/bloc.dart';
 import 'package:stopwatch/home_page/view/home_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -10,7 +11,10 @@ void main() {
   runApp(
     BlocProvider<AppConfigBloc>(
       create: (_) => AppConfigBloc(appConfig: AppConfig.defaultConfig()),
-      child: const StopwatchApp(),
+      child: BlocProvider<StopWatchBloc>(
+        create: (_) => StopWatchBloc(),
+        child: const StopwatchApp(),
+      ),
     ),
   );
 }
