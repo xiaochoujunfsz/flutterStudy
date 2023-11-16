@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:itouch_study/05/02/component/paint_setting_dialog.dart';
+import 'component/paint_setting_dialog.dart';
 import 'model/line.dart';
 import 'model/point.dart';
 import 'paper_painter.dart';
